@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Sacred Journey - The Unified Path</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, #0a0e27 0%, #1a1a3e 30%, #2d1b4e 50%, #3d2c5f 70%, #1a3a2e 100%);
+            color: #f0e6d2;
+            min-height: 100vh;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #f0e6d2;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffd700, #87ceeb, #4caf50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .journey-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .journey-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease backwards;
+        }
+
+        .journey-card:nth-child(1) { animation-delay: 0.2s; }
+        .journey-card:nth-child(2) { animation-delay: 0.4s; }
+        .journey-card:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .journey-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(135, 206, 235, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .journey-card:hover::before {
+            opacity: 1;
+        }
+
+        .journey-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 215, 0, 0.5);
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);
+        }
+
+        .journey-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .journey-card h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #87ceeb;
+        }
+
+        .journey-card p {
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .journey-card ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .journey-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            opacity: 0.85;
+        }
+
+        .journey-card li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #ffd700;
+        }
+
+        .select-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .select-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        /* CTA button (same visual language as .select-button) */
+        .cta-button {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            margin-top: 1.5rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .custom-path {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin-top: 3rem;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            animation: fadeInUp 0.8s ease 0.8s backwards;
+        }
+
+        .custom-path h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .custom-path p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .custom-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #87ceeb;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #f0e6d2;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5rem; }
+            .journey-card h2 { font-size: 1.5rem; }
+            .custom-path h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <a href="index.html" class="back-button">
+            ← Return to Home
+        </a>
+
+        <div class="header">
+            <h1>Choose Your Sacred Path</h1>
+            <p>Every soul's journey is unique, yet all paths converge at the summit</p>
+            <button class="cta-button" onclick="scrollToSection()">Begin Your Journey</button>
+        </div>
+
+        <div class="journey-selector">
+            <div class="journey-card">
+                <span class="journey-icon">🌅</span>
+                <h2>The Seeker's Path</h2>
+                <p>For those beginning their spiritual journey, questioning, exploring, and discovering the divine in all its forms.</p>
+                <ul>
+                    <li>Daily meditation practices</li>
+                    <li>Introduction to sacred texts</li>
+                    <li>Guided contemplation</li>
+                    <li>Community support</li>
+                </ul>
+                <button class="select-button" onclick="selectPath('seeker')">Begin as a Seeker</button>
+            </div>
+
+            <div class="journey-card">
+                <span class="journey-icon">🌟</span>
+                <h2>The Mystic's Path</h2>
+                <p>For those deepening their practice, seeking direct experience of the divine through contemplation and inner work.</p>
+                <ul>
+                    <li>Advanced meditation techniques</li>
+                    <li>Sacred ceremony and ritual</li>
+                    <li>Energy work and healing</li>
+                    <li>Mystical teachings</li>
+                </ul>
+                <button class="select-button" onclick="selectPath('mystic')">Walk as a Mystic</button>
+            </div>
+
+            <div class="journey-card">
+                <span class="journey-icon">✨</span>
+                <h2>The Servant's Path</h2>
+                <p>For those called to embody divine love through service, bringing heaven to earth through compassionate action.</p>
+                <ul>
+                    <li>Service and community work</li>
+                    <li>Compassionate action practices</li>
+                    <li>Sacred activism</li>
+                    <li>Living wisdom</li>
+                </ul>
+                <button class="select-button" onclick="selectPath('servant')">Serve with Love</button>
+            </div>
+        </div>
+
+        <div class="custom-path">
+            <h2>Create Your Custom Path</h2>
+            <p>The divine speaks to each heart differently. Share your intentions and we'll guide you to practices that resonate with your unique soul.</p>
+            
+            <form class="custom-form" onsubmit="submitCustomPath(event)">
+                <div class="form-group">
+                    <label for="name">Your Name (or preferred name)</label>
+                    <input type="text" id="name" placeholder="Enter your name..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">Your Spiritual Background</label>
+                    <select id="experience" required>
+                        <option value="">Select...</option>
+                        <option value="beginner">Just beginning my journey</option>
+                        <option value="exploring">Exploring different traditions</option>
+                        <option value="experienced">Experienced practitioner</option>
+                        <option value="teacher">Teacher or guide</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Practices that interest you:</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="meditation" name="practices" value="meditation">
+                            <label for="meditation">Meditation</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="prayer" name="practices" value="prayer">
+                            <label for="prayer">Prayer</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="study" name="practices" value="study">
+                            <label for="study">Sacred Study</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ritual" name="practices" value="ritual">
+                            <label for="ritual">Ritual</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="service" name="practices" value="service">
+                            <label for="service">Service</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="nature" name="practices" value="nature">
+                            <label for="nature">Nature Connection</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="intention">What draws you to this path?</label>
+                    <textarea id="intention" placeholder="Share your intentions, questions, or what you're seeking..." required></textarea>
+                </div>
+
+                <button type="submit" class="select-button">Create My Sacred Path</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Create animated stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        function selectPath(pathType) {
+            const messages = {
+                seeker: 'Welcome, dear Seeker! Your journey of discovery begins now.',
+                mystic: 'Welcome, dear Mystic! The inner realms await your exploration.',
+                servant: 'Welcome, dear Servant! Your compassionate heart will light the way.'
+            };
+            
+            alert(messages[pathType] + '\n\nYou will soon receive guidance for your chosen path.');
+            
+            // In a real application, this would navigate to a dashboard or next page
+            console.log(`Selected path: ${pathType}`);
+        }
+
+        // Smooth scroll function used by the header CTA
+        function scrollToSection() {
+            const target = document.querySelector('.journey-selector');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                // fallback: scroll to top of container
+                const container = document.querySelector('.container');
+                if (container) container.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function submitCustomPath(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const experience = document.getElementById('experience').value;
+            const intention = document.getElementById('intention').value;
+            
+            const selectedPractices = Array.from(document.querySelectorAll('input[name="practices"]:checked'))
+                .map(cb => cb.value);
+            
+            console.log('Custom Path Data:', {
+                name,
+                experience,
+                practices: selectedPractices,
+                intention
+            });
+            
+            alert(`Thank you, ${name}! Your custom sacred path is being prepared.\n\nWe honor your unique journey and will guide you with practices aligned with your heart's calling.`);
+            
+            // In a real application, this would save data and navigate to personalized dashboard
+        }
+
+        // Add floating animation to journey cards on scroll
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.journey-card');
+            cards.forEach((card, index) => {
+                const rect = card.getBoundingClientRect();
+                const inView = rect.top < window.innerHeight && rect.bottom > 0;
+                
+                if (inView) {
+                    const offset = (window.pageYOffset - card.offsetTop) * 0.05;
+                    card.style.transform = `translateY(${offset}px)`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

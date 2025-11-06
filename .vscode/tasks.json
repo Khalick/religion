@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Open in Chrome",
+      "type": "shell",
+      "command": "google-chrome \"${file}\"",
+      "presentation": {
+        "echo": false,
+        "reveal": "never",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
