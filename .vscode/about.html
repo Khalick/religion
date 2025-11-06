@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - The Unified Path</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #0a0e27, #1a1a3e, #2d1b4e);
+            color: #f0e6d2;
+            min-height: 100vh;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-top: 2rem;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #ffd700, #87ceeb, #4caf50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .content-section h2 {
+            color: #ffd700;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section p {
+            line-height: 2;
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 1.5rem;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(135, 206, 235, 0.1));
+            border-left: 4px solid #ffd700;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 15px;
+        }
+
+        .quote-text {
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.8;
+            color: #87ceeb;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .value-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 215, 0, 0.5);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .value-card h3 {
+            color: #87ceeb;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .value-card p {
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .faq-section {
+            margin-top: 2rem;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .faq-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(135, 206, 235, 0.5);
+        }
+
+        .faq-question {
+            color: #87ceeb;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            line-height: 1.8;
+            opacity: 0.9;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+            margin-top: 1rem;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .symbol-divider {
+            text-align: center;
+            font-size: 2rem;
+            margin: 3rem 0;
+            opacity: 0.5;
+        }
+
+        /* Top navigation shared across pages */
+        .top-nav {
+            position: fixed;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.4);
+            padding: 0.4rem 0.6rem;
+            border-radius: 999px;
+            z-index: 9999;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .top-nav a {
+            color: #f0e6d2;
+            text-decoration: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            background: transparent;
+            transition: background 0.2s ease, transform 0.15s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .top-nav a:hover {
+            background: linear-gradient(135deg, #667eea33, #764ba233);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            .tagline {
+                font-size: 1.2rem;
+            }
+            .content-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <nav class="top-nav" aria-label="Main navigation">
+        <a href="../file.html">Home</a>
+        <a href="../beggine.html">Begin</a>
+        <a href="../daily.html">Daily</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+        <a href="library.html">Library</a>
+        <a href="oracle.html">Oracle</a>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>About The Unified Path</h1>
+            <p class="tagline">Where All Streams Flow Into One Ocean</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Our Vision</h2>
+            <p>The Unified Path emerged from a simple yet profound realization: at their core, all spiritual traditions point to the same eternal truths. Whether we call it God, Allah, Brahman, the Tao, or the Divine—we are all seeking connection with the same infinite source of love and wisdom.</p>
+            
+            <p>We live in a time of great division, where differences in belief separate us from one another. Yet when we look beyond the surface of religious forms and rituals, we discover a universal spirituality that unites all seekers. This is the Unified Path—not a new religion, but a recognition of the sacred thread that weaves through all traditions.</p>
+
+            <div class="quote-box">
+                <p class="quote-text">"Truth is one; the sages call it by many names."</p>
+                <p style="text-align: right; opacity: 0.8; margin-top: 1rem;">— Rig Veda</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Our Core Beliefs</h2>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">☯️</div>
+                    <h3>Unity in Diversity</h3>
+                    <p>We honor all spiritual traditions as valid paths to the Divine. Each tradition offers unique wisdom and practices that enrich our collective understanding.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">💝</div>
+                    <h3>Love as Foundation</h3>
+                    <p>Compassion, kindness, and unconditional love are the heart of true spirituality. When we act from love, we embody the divine.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🔍</div>
+                    <h3>Direct Experience</h3>
+                    <p>While we study sacred texts and teachings, we encourage personal spiritual experience through meditation, prayer, and contemplation.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🌱</div>
+                    <h3>Continuous Growth</h3>
+                    <p>The spiritual journey is ongoing. We remain humble students, always open to new insights and deeper understanding.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <h3>Service to All</h3>
+                    <p>Spirituality without action is incomplete. We bring heaven to earth through compassionate service and sacred activism.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🕊️</div>
+                    <h3>Peace & Harmony</h3>
+                    <p>We work toward peace within ourselves, between people, and across all divisions of faith, culture, and belief.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="symbol-divider">✦ ✧ ✦</div>
+
+        <div class="content-section">
+            <h2>How We're Different</h2>
+            <p>The Unified Path is not about creating another religion or asking anyone to abandon their current faith. Instead, we offer:</p>
+            
+            <ul style="line-height: 2; font-size: 1.1rem; margin-left: 2rem; opacity: 0.95;">
+                <li style="margin-bottom: 1rem;">A space where Christians can deepen their Christianity, Muslims can deepen their Islam, Buddhists can deepen their Buddhism—while also learning from other traditions</li>
+                <li style="margin-bottom: 1rem;">Practical tools and practices drawn from the world's wisdom traditions</li>
+                <li style="margin-bottom: 1rem;">A supportive community of fellow seekers walking diverse paths</li>
+                <li style="margin-bottom: 1rem;">Resources that honor both ancient wisdom and modern understanding</li>
+                <li style="margin-bottom: 1rem;">Freedom to explore without dogma or judgment</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Our Invitation</h2>
+            <p>Whether you're firmly rooted in a particular tradition or exploring multiple paths, whether you're just beginning your spiritual journey or have walked this road for decades—you are welcome here.</p>
+            
+            <p>The Unified Path invites you to:</p>
+            <ul style="line-height: 2; font-size: 1.1rem; margin-left: 2rem; opacity: 0.95; margin-top: 1rem;">
+                <li style="margin-bottom: 1rem;">Discover the divine spark within yourself</li>
+                <li style="margin-bottom: 1rem;">Explore wisdom from all the world's great teachers</li>
+                <li style="margin-bottom: 1rem;">Develop a daily practice that resonates with your heart</li>
+                <li style="margin-bottom: 1rem;">Connect with a community of open-hearted seekers</li>
+                <li style="margin-bottom: 1rem;">Live your spirituality in every moment</li>
+            </ul>
+
+            <div class="quote-box" style="margin-top: 2rem;">
+                <p class="quote-text">"The soul is here for its own joy."</p>
+                <p style="text-align: right; opacity: 0.8; margin-top: 1rem;">— Rumi</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-section">
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        <span>Is this a new religion?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>No. The Unified Path is not a religion but a spiritual philosophy and practice. We encourage people to deepen their existing faith traditions while also learning from the universal wisdom found across all paths. Think of it as a bridge between traditions, not a replacement for them.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        <span>Do I need to give up my current beliefs?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely not. Many of our community members are practicing Christians, Muslims, Buddhists, Hindus, and more. The Unified Path complements your existing practice by offering additional perspectives and tools. You remain true to your own tradition while appreciating the wisdom in others.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        <span>Is there a cost to participate?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>All of our core resources, community features, and most events are completely free. We believe spiritual wisdom should be accessible to all. We do accept donations to support our work, and some specialized workshops or retreats may have fees to cover costs, but we never want finances to be a barrier to spiritual growth.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        <span>How do I get started?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Begin by exploring our resources! Try the daily practice dashboard, attend an online meditation, read some sacred teachings, or join a discussion. There's no pressure to commit to anything—simply explore what resonates with your heart. Your journey is unique, and we're here to support however feels right for you.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        <span>What if I'm new to spirituality?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Perfect! The Unified Path welcomes seekers at all levels. We have resources specifically for beginners, including guided meditations, introductions to various practices, and a supportive community where questions are always welcome. Everyone starts somewhere, and your fresh perspective is valuable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section" style="text-align: center;">
+            <h2>Join Us</h2>
+            <p style="font-size: 1.2rem;">The path is walked one step at a time, together.</p>
+            <div style="margin-top: 2rem;">
+                <a href="journey.html" style="display: inline-block; padding: 1rem 3rem; background: linear-gradient(135deg, #667eea, #764ba2); color: white; text-decoration: none; border-radius: 50px; font-size: 1.2rem; transition: all 0.3s ease;">Begin Your Journey</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        function toggleFAQ(element) {
+            element.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

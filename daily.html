@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Practice - The Unified Path</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #0a0e27 0%, #1a1a3e 30%, #2d1b4e 50%, #3d2c5f 70%, #1a3a2e 100%);
+            color: #f0e6d2;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #ffd700, #87ceeb, #4caf50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .date-display {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .nav-bar {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #f0e6d2;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            color: #87ceeb;
+        }
+
+        .daily-quote {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(135, 206, 235, 0.1));
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #ffd700;
+        }
+
+        .quote-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .quote-author {
+            text-align: right;
+            opacity: 0.7;
+        }
+
+        .practice-list {
+            list-style: none;
+        }
+
+        .practice-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .practice-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .practice-item.completed {
+            opacity: 0.6;
+            background: rgba(76, 175, 80, 0.2);
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #87ceeb;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .checkbox.checked {
+            background: #4caf50;
+            border-color: #4caf50;
+            position: relative;
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 16px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .streak-counter {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.2));
+            border-radius: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .streak-number {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .streak-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .journal-entry {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #f0e6d2;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .journal-entry:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Top navigation shared across pages */
+        .top-nav {
+            position: fixed;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.4);
+            padding: 0.4rem 0.6rem;
+            border-radius: 999px;
+            z-index: 9999;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .top-nav a {
+            color: #f0e6d2;
+            text-decoration: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            background: transparent;
+            transition: background 0.2s ease, transform 0.15s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .top-nav a:hover {
+            background: linear-gradient(135deg, #667eea33, #764ba233);
+            transform: translateY(-2px);
+        }
+
+        .mood-selector {
+            display: flex;
+            justify-content: space-around;
+            margin: 1rem 0;
+        }
+
+        .mood-btn {
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 10px;
+        }
+
+        .mood-btn:hover {
+            transform: scale(1.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mood-btn.selected {
+            background: rgba(255, 215, 0, 0.3);
+            transform: scale(1.3);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            border-radius: 15px;
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .affirmation-card {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.2), rgba(147, 112, 219, 0.2));
+            border-radius: 15px;
+            margin: 1rem 0;
+        }
+
+        .affirmation-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #87ceeb;
+            margin-bottom: 1rem;
+        }
+
+        .refresh-btn {
+            padding: 0.5rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #f0e6d2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <nav class="top-nav" aria-label="Main navigation">
+        <a href="file.html">Home</a>
+        <a href="beggine.html">Begin</a>
+        <a href="daily.html">Daily</a>
+        <a href=".vscode/about.html">About</a>
+        <a href=".vscode/community.html">Community</a>
+        <a href=".vscode/contact.html">Contact</a>
+        <a href=".vscode/library.html">Library</a>
+        <a href=".vscode/oracle.html">Oracle</a>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Your Daily Practice</h1>
+            <p class="date-display" id="dateDisplay"></p>
+        </div>
+
+        <nav class="nav-bar">
+            <a href="index.html" class="nav-btn">🏠 Home</a>
+            <a href="journey.html" class="nav-btn">✨ Journey</a>
+            <a href="meditation.html" class="nav-btn">🧘 Meditate</a>
+            <a href="teachings.html" class="nav-btn">📚 Teachings</a>
+            <a href="community.html" class="nav-btn">👥 Community</a>
+        </nav>
+
+        <div class="dashboard-grid">
+            <!-- Daily Quote -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📜</span>
+                    <h2>Daily Wisdom</h2>
+                </div>
+                <div class="daily-quote">
+                    <p class="quote-text" id="quoteText">"The wound is the place where the Light enters you."</p>
+                    <p class="quote-author" id="quoteAuthor">- Rumi</p>
+                </div>
+                <button class="refresh-btn" onclick="refreshQuote()">🔄 New Quote</button>
+            </div>
+
+            <!-- Practice Streak -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🔥</span>
+                    <h2>Practice Streak</h2>
+                </div>
+                <div class="streak-counter">
+                    <div class="streak-number" id="streakNumber">7</div>
+                    <div class="streak-label">Days of Consistent Practice</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 70%">70% Today</div>
+                </div>
+            </div>
+
+            <!-- Daily Affirmation -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💫</span>
+                    <h2>Today's Affirmation</h2>
+                </div>
+                <div class="affirmation-card">
+                    <p class="affirmation-text" id="affirmationText">I am a vessel of divine light and love</p>
+                </div>
+                <button class="refresh-btn" onclick="refreshAffirmation()">🔄 New Affirmation</button>
+            </div>
+
+            <!-- Daily Practices -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">✅</span>
+                    <h2>Today's Practices</h2>
+                </div>
+                <ul class="practice-list" id="practiceList">
+                    <li class="practice-item" onclick="togglePractice(this)">
+                        <div class="checkbox"></div>
+                        <span>Morning Meditation (15 min)</span>
+                    </li>
+                    <li class="practice-item" onclick="togglePractice(this)">
+                        <div class="checkbox"></div>
+                        <span>Gratitude Prayer</span>
+                    </li>
+                    <li class="practice-item" onclick="togglePractice(this)">
+                        <div class="checkbox"></div>
+                        <span>Sacred Reading (20 min)</span>
+                    </li>
+                    <li class="practice-item" onclick="togglePractice(this)">
+                        <div class="checkbox"></div>
+                        <span>Mindful Movement</span>
+                    </li>
+                    <li class="practice-item" onclick="togglePractice(this)">
+                        <div class="checkbox"></div>
+                        <span>Evening Reflection</span>
+                    </li>
+                    <li class="practice-item" onclick="togglePractice(this)">
+                        <div class="checkbox"></div>
+                        <span>Acts of Kindness</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Mood Tracker -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🌈</span>
+                    <h2>How Are You Feeling?</h2>
+                </div>
+                <div class="mood-selector">
+                    <span class="mood-btn" onclick="selectMood(this)" data-mood="peaceful">😌</span>
+                    <span class="mood-btn" onclick="selectMood(this)" data-mood="joyful">😊</span>
+                    <span class="mood-btn" onclick="selectMood(this)" data-mood="grateful">🙏</span>
+                    <span class="mood-btn" onclick="selectMood(this)" data-mood="contemplative">🤔</span>
+                    <span class="mood-btn" onclick="selectMood(this)" data-mood="struggling">😔</span>
+                </div>
+                <p style="text-align: center; opacity: 0.7; margin-top: 1rem;" id="moodMessage">Select your current state</p>
+            </div>
+
+            <!-- Daily Journal -->
+            <div class="card" style="grid-column: 1 / -1;">
+                <div class="card-header">
+                    <span class="card-icon">📝</span>
+                    <h2>Spiritual Journal</h2>
+                </div>
+                <textarea class="journal-entry" id="journalEntry" placeholder="Reflect on your day... What insights arose? What are you grateful for? What challenges did you face?"></textarea>
+                <button class="save-btn" onclick="saveJournal()">💾 Save Today's Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Display current date
+        const dateDisplay = document.getElementById('dateDisplay');
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateDisplay.textContent = new Date().toLocaleDateString('en-US', options);
+
+        // Quotes database
+        const quotes = [
+            { text: "The wound is the place where the Light enters you.", author: "Rumi" },
+            { text: "Be still and know that I am God.", author: "Psalm 46:10" },
+            { text: "The mind is everything. What you think you become.", author: "Buddha" },
+            { text: "In the name of God, the Most Compassionate, the Most Merciful.", author: "Quran 1:1" },
+            { text: "You are not a drop in the ocean. You are the entire ocean in a drop.", author: "Rumi" },
+            { text: "The kingdom of God is within you.", author: "Luke 17:21" },
+            { text: "Peace comes from within. Do not seek it without.", author: "Buddha" },
+            { text: "When you do things from your soul, you feel a river moving in you, a joy.", author: "Rumi" }
+        ];
+
+        // Affirmations database
+        const affirmations = [
+            "I am a vessel of divine light and love",
+            "My soul is eternal and boundless",
+            "I trust the sacred journey of my life",
+            "Peace flows through me like a gentle river",
+            "I am connected to all that is",
+            "Divine wisdom guides my every step",
+            "I radiate compassion and kindness",
+            "My heart is open to receive blessings"
+        ];
+
+        function refreshQuote() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quoteText').textContent = `"${randomQuote.text}"`;
+            document.getElementById('quoteAuthor').textContent = `- ${randomQuote.author}`;
+        }
+
+        function refreshAffirmation() {
+            const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+            document.getElementById('affirmationText').textContent = randomAffirmation;
+        }
+
+        function togglePractice(item) {
+            const checkbox = item.querySelector('.checkbox');
+            checkbox.classList.toggle('checked');
+            item.classList.toggle('completed');
+            
+            // Update progress
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = document.querySelectorAll('.practice-item').length;
+            const completed = document.querySelectorAll('.practice-item.completed').length;
+            const percentage = Math.round((completed / total) * 100);
+            
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = percentage + '%';
+            progressFill.textContent = percentage + '% Today';
+        }
+
+        function selectMood(btn) {
+            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            
+            const mood = btn.dataset.mood;
+            const messages = {
+                peaceful: "Beautiful! May this peace continue to bless you.",
+                joyful: "Your joy is a gift to the world!",
+                grateful: "Gratitude opens the door to abundance.",
+                contemplative: "Deep reflection brings great wisdom.",
+                struggling: "This too shall pass. You are held in divine love."
+            };
+            
+            document.getElementById('moodMessage').textContent = messages[mood];
+        }
+
+        function saveJournal() {
+            const entry = document.getElementById('journalEntry').value;
+            if (entry.trim()) {
+                const today = new Date().toDateString();
+                // In a real app, this would save to a database
+                console.log('Saving journal entry for', today, ':', entry);
+                alert('✨ Your reflection has been saved. May it serve your journey.');
+            } else {
+                alert('Please write something in your journal first.');
+            }
+        }
+
+        // Load saved data (in a real app, this would come from a database)
+        window.addEventListener('load', () => {
+            refreshQuote();
+            refreshAffirmation();
+        });
+    </script>
+</body>
+</html>

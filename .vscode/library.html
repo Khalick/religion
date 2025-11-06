@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sacred Teachings - The Unified Path</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #0a0e27, #1a1a3e, #2d1b4e);
+            color: #f0e6d2;
+            min-height: 100vh;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #ffd700, #87ceeb, #4caf50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #f0e6d2;
+            font-size: 1.1rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #f0e6d2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: transparent;
+        }
+
+        .teachings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .teaching-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .teaching-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .tradition-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(135, 206, 235, 0.3);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .teaching-card h3 {
+            color: #ffd700;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .quote-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+        }
+
+        .source {
+            color: #87ceeb;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .reflection {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid #4caf50;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .featured-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .featured-section h2 {
+            text-align: center;
+            color: #ffd700;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Top navigation shared across pages */
+        .top-nav {
+            position: fixed;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.4);
+            padding: 0.4rem 0.6rem;
+            border-radius: 999px;
+            z-index: 9999;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .top-nav a {
+            color: #f0e6d2;
+            text-decoration: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            background: transparent;
+            transition: background 0.2s ease, transform 0.15s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .top-nav a:hover {
+            background: linear-gradient(135deg, #667eea33, #764ba233);
+            transform: translateY(-2px);
+        }
+
+        .featured-teaching {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .featured-quote {
+            font-size: 1.8rem;
+            line-height: 2;
+            font-style: italic;
+            margin: 2rem 0;
+            color: #87ceeb;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .category-card:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 215, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-card h3 {
+            color: #87ceeb;
+            font-size: 1.2rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a3e, #2d1b4e);
+            border-radius: 30px;
+            padding: 3rem;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #f0e6d2;
+            background: none;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .teachings-grid {
+                grid-template-columns: 1fr;
+            }
+            .featured-quote {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <nav class="top-nav" aria-label="Main navigation">
+        <a href="../file.html">Home</a>
+        <a href="../beggine.html">Begin</a>
+        <a href="../daily.html">Daily</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+        <a href="library.html">Library</a>
+        <a href="oracle.html">Oracle</a>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Sacred Teachings Library</h1>
+            <p style="font-size: 1.2rem; opacity: 0.8;">Wisdom from all traditions, one universal truth</p>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search teachings, topics, or traditions...">
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterTeachings('all')">All Traditions</button>
+            <button class="filter-btn" onclick="filterTeachings('buddhism')">Buddhism</button>
+            <button class="filter-btn" onclick="filterTeachings('christianity')">Christianity</button>
+            <button class="filter-btn" onclick="filterTeachings('islam')">Islam</button>
+            <button class="filter-btn" onclick="filterTeachings('hinduism')">Hinduism</button>
+            <button class="filter-btn" onclick="filterTeachings('taoism')">Taoism</button>
+            <button class="filter-btn" onclick="filterTeachings('mystic')">Mystics</button>
+        </div>
+
+        <div class="featured-section">
+            <h2>Teaching of the Day</h2>
+            <div class="featured-teaching">
+                <p class="featured-quote">"Be a lamp unto yourself. Work out your own salvation with diligence."</p>
+                <p class="source">— The Buddha, Mahāparinibbāna Sutta</p>
+                <div class="reflection">
+                    <p><strong>Reflection:</strong> This profound teaching reminds us that while teachers and traditions guide us, the ultimate journey is within. Each soul must discover their own light through dedicated practice and inner exploration.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: #ffd700; margin: 3rem 0 2rem;">Explore by Theme</h2>
+        <div class="categories">
+            <div class="category-card" onclick="searchByCategory('love')">
+                <div class="category-icon">❤️</div>
+                <h3>Love & Compassion</h3>
+            </div>
+            <div class="category-card" onclick="searchByCategory('wisdom')">
+                <div class="category-icon">🧠</div>
+                <h3>Wisdom</h3>
+            </div>
+            <div class="category-card" onclick="searchByCategory('peace')">
+                <div class="category-icon">☮️</div>
+                <h3>Inner Peace</h3>
+            </div>
+            <div class="category-card" onclick="searchByCategory('unity')">
+                <div class="category-icon">🌍</div>
+                <h3>Unity & Oneness</h3>
+            </div>
+            <div class="category-card" onclick="searchByCategory('meditation')">
+                <div class="category-icon">🧘</div>
+                <h3>Meditation</h3>
+            </div>
+            <div class="category-card" onclick="searchByCategory('service')">
+                <div class="category-icon">🤲</div>
+                <h3>Service</h3>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: #ffd700; margin: 3rem 0 2rem;">Sacred Wisdom</h2>
+        <div class="teachings-grid" id="teachingsGrid">
+            <!-- Buddhism -->
+            <div class="teaching-card" data-tradition="buddhism" onclick="openModal(this)">
+                <span class="tradition-tag">Buddhism</span>
+                <h3>The Nature of Mind</h3>
+                <p class="quote-text">"All that we are is the result of what we have thought. The mind is everything. What we think we become."</p>
+                <p class="source">— The Buddha, Dhammapada</p>
+                <div class="reflection">Our thoughts shape our reality. By cultivating mindful awareness, we take responsibility for our mental landscape and, ultimately, our lived experience.</div>
+            </div>
+
+            <!-- Christianity -->
+            <div class="teaching-card" data-tradition="christianity" onclick="openModal(this)">
+                <span class="tradition-tag">Christianity</span>
+                <h3>The Kingdom Within</h3>
+                <p class="quote-text">"The kingdom of God is within you."</p>
+                <p class="source">— Jesus Christ, Luke 17:21</p>
+                <div class="reflection">Divine presence is not distant but intimately close, dwelling in the depths of our own being. Heaven is not a place we go to, but a consciousness we awaken to.</div>
+            </div>
+
+            <!-- Islam -->
+            <div class="teaching-card" data-tradition="islam" onclick="openModal(this)">
+                <span class="tradition-tag">Islam</span>
+                <h3>Divine Mercy</h3>
+                <p class="quote-text">"My mercy encompasses all things."</p>
+                <p class="source">— Quran 7:156</p>
+                <div class="reflection">The infinite compassion of the Divine extends to every creature, every situation, every moment. No soul is beyond the reach of divine grace.</div>
+            </div>
+
+            <!-- Hinduism -->
+            <div class="teaching-card" data-tradition="hinduism" onclick="openModal(this)">
+                <span class="tradition-tag">Hinduism</span>
+                <h3>The Self and the Absolute</h3>
+                <p class="quote-text">"Tat Tvam Asi - Thou art That."</p>
+                <p class="source">— Chandogya Upanishad</p>
+                <div class="reflection">The essence of your being is not separate from the ultimate reality. Your true self is one with the infinite consciousness that pervades all existence.</div>
+            </div>
+
+            <!-- Taoism -->
+            <div class="teaching-card" data-tradition="taoism" onclick="openModal(this)">
+                <span class="tradition-tag">Taoism</span>
+                <h3>The Way of Water</h3>
+                <p class="quote-text">"The softest things in the world overcome the hardest things in the world."</p>
+                <p class="source">— Lao Tzu, Tao Te Ching</p>
+                <div class="reflection">True strength lies not in rigidity but in flexibility. Like water, we flow around obstacles, adapt to circumstances, and ultimately shape the landscape.</div>
+            </div>
+
+            <!-- Rumi -->
+            <div class="teaching-card" data-tradition="mystic" onclick="openModal(this)">
+                <span class="tradition-tag">Sufi Mysticism</span>
+                <h3>Beyond Form</h3>
+                <p class="quote-text">"Out beyond ideas of wrongdoing and rightdoing, there is a field. I'll meet you there."</p>
+                <p class="source">— Rumi</p>
+                <div class="reflection">The mystic dwells in a space beyond duality, where judgment dissolves and unity consciousness emerges. This is the meeting ground of all souls.</div>
+            </div>
+
+            <!-- More teachings -->
+            <div class="teaching-card" data-tradition="buddhism" onclick="openModal(this)">
+                <span class="tradition-tag">Buddhism</span>
+                <h3>Interconnection</h3>
+                <p class="quote-text">"When you plant a seed of love, it is you that blossoms."</p>
+                <p class="source">— Thich Nhat Hanh</p>
+                <div class="reflection">There is no separation between giver and receiver. Every act of compassion enriches our own being, for we are all part of one interconnected whole.</div>
+            </div>
+
+            <div class="teaching-card" data-tradition="christianity" onclick="openModal(this)">
+                <span class="tradition-tag">Christianity</span>
+                <h3>Love Without Condition</h3>
+                <p class="quote-text">"Love your enemies and pray for those who persecute you."</p>
+                <p class="source">— Jesus Christ, Matthew 5:44</p>
+                <div class="reflection">True spiritual maturity transcends conditional love. When we love without judgment, we embody divine consciousness itself.</div>
+            </div>
+
+            <div class="teaching-card" data-tradition="hinduism" onclick="openModal(this)">
+                <span class="tradition-tag">Hinduism</span>
+                <h3>Eternal Wisdom</h3>
+                <p class="quote-text">"You have the right to work, but never to the fruit of work."</p>
+                <p class="source">— Bhagavad Gita</p>
+                <div class="reflection">Act with full dedication while remaining unattached to outcomes. This is the path of karma yoga - selfless action that frees us from bondage.</div>
+            </div>
+
+            <div class="teaching-card" data-tradition="islam" onclick="openModal(this)">
+                <span class="tradition-tag">Islam</span>
+                <h3>Remembrance</h3>
+                <p class="quote-text">"Remember Me, and I will remember you."</p>
+                <p class="source">— Quran 2:152</p>
+                <div class="reflection">The practice of dhikr (remembrance) creates a sacred reciprocity. As we hold the Divine in awareness, we are held in divine awareness.</div>
+            </div>
+
+            <div class="teaching-card" data-tradition="taoism" onclick="openModal(this)">
+                <span class="tradition-tag">Taoism</span>
+                <h3>Simplicity</h3>
+                <p class="quote-text">"In pursuit of knowledge, every day something is added. In the practice of the Tao, every day something is dropped."</p>
+                <p class="source">— Lao Tzu</p>
+                <div class="reflection">Spiritual growth is often a process of subtraction rather than addition. We awaken by releasing what obscures our natural wisdom.</div>
+            </div>
+
+            <div class="teaching-card" data-tradition="mystic" onclick="openModal(this)">
+                <span class="tradition-tag">Christian Mysticism</span>
+                <h3>The Dark Night</h3>
+                <p class="quote-text">"In the dark night of the soul, bright flows the river of God."</p>
+                <p class="source">— John of the Cross</p>
+                <div class="reflection">Times of spiritual dryness and confusion are not abandonment but transformation. The divine works most deeply when we feel it least.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Filter teachings
+        function filterTeachings(tradition) {
+            const cards = document.querySelectorAll('.teaching-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (tradition === 'all' || card.dataset.tradition === tradition) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.teaching-card');
+            
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Search by category
+        function searchByCategory(category) {
+            document.getElementById('searchInput').value = category;
+            document.getElementById('searchInput').dispatchEvent(new Event('input'));
+        }
+
+        // Modal functions
+        function openModal(card) {
+            const modal = document.getElementById('modal');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalBody.innerHTML = card.innerHTML;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Close modal on outside click
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

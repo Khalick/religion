@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - The Unified Path</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #0a0e27, #1a1a3e, #2d1b4e);
+            color: #f0e6d2;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #ffd700, #87ceeb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 215, 0, 0.5);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .contact-card h2 {
+            color: #87ceeb;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .contact-card p {
+            line-height: 1.8;
+            opacity: 0.9;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .contact-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .contact-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 3rem;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            margin-bottom: 3rem;
+        }
+
+        .form-section h2 {
+            color: #ffd700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .form-section > p {
+        }
+
+        /* Top navigation shared across pages */
+        .top-nav {
+            position: fixed;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.4);
+            padding: 0.4rem 0.6rem;
+            border-radius: 999px;
+            z-index: 9999;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .top-nav a {
+            color: #f0e6d2;
+            text-decoration: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            background: transparent;
+            transition: background 0.2s ease, transform 0.15s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .top-nav a:hover {
+            background: linear-gradient(135deg, #667eea33, #764ba233);
+            transform: translateY(-2px);
+        }
+
+        .form-section > p {
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #87ceeb;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #f0e6d2;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.6);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .social-button {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #f0e6d2;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(147, 112, 219, 0.1));
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 4px solid #87ceeb;
+        }
+
+        .donation-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 3rem;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            text-align: center;
+        }
+
+        .donation-section h2 {
+            color: #ffd700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .donation-section p {
+            line-height: 2;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .donation-options {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .donation-amount {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .donation-amount:hover,
+        .donation-amount.selected {
+            background: rgba(255, 215, 0, 0.3);
+            border-color: #ffd700;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <nav class="top-nav" aria-label="Main navigation">
+        <a href="../file.html">Home</a>
+        <a href="../beggine.html">Begin</a>
+        <a href="../daily.html">Daily</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+        <a href="library.html">Library</a>
+        <a href="oracle.html">Oracle</a>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Connect With Us</h1>
+            <p style="font-size: 1.2rem; opacity: 0.8;">We're here to support your spiritual journey</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">💬</div>
+                <h2>Spiritual Guidance</h2>
+                <p>Need one-on-one support or have questions about your practice? Book a session with one of our experienced spiritual guides.</p>
+                <button class="contact-button" onclick="bookGuidance()">Book a Session</button>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">📧</div>
+                <h2>General Inquiries</h2>
+                <p>Questions about our community, events, or resources? We'd love to hear from you!</p>
+                <button class="contact-button" onclick="scrollToForm()">Send a Message</button>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">🤝</div>
+                <h2>Partnership</h2>
+                <p>Interested in collaborating, teaching, or hosting an event with The Unified Path?</p>
+                <button class="contact-button" onclick="contactPartnership()">Explore Partnership</button>
+            </div>
+        </div>
+
+        <div class="form-section" id="contactForm">
+            <h2>Send Us a Message</h2>
+            <p>We typically respond within 24-48 hours</p>
+
+            <form onsubmit="submitForm(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" required placeholder="Enter your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" required placeholder="your@email.com">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject *</label>
+                    <select id="subject" required>
+                        <option value="">Select a topic...</option>
+                        <option value="general">General Question</option>
+                        <option value="practice">Practice Support</option>
+                        <option value="events">Events & Workshops</option>
+                        <option value="community">Community Matters</option>
+                        <option value="technical">Technical Support</option>
+                        <option value="partnership">Partnership Inquiry</option>
+                        <option value="feedback">Feedback</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Your Message *</label>
+                    <textarea id="message" required placeholder="Share your thoughts, questions, or concerns..."></textarea>
+                </div>
+
+                <div class="info-box">
+                    <p style="margin: 0;"><strong>Note:</strong> For urgent spiritual crises, please contact a local crisis helpline. We are not equipped to handle emergency situations.</p>
+                </div>
+
+                <button type="submit" class="submit-button">Send Message 📨</button>
+            </form>
+        </div>
+
+        <div class="form-section">
+            <h2>Join Our Community</h2>
+            <p>Stay connected through our social channels and newsletter</p>
+
+            <div class="social-links">
+                <a href="#" class="social-button">
+                    <span>📘</span>
+                    <span>Facebook</span>
+                </a>
+                <a href="#" class="social-button">
+                    <span>📷</span>
+                    <span>Instagram</span>
+                </a>
+                <a href="#" class="social-button">
+                    <span>🐦</span>
+                    <span>Twitter</span>
+                </a>
+                <a href="#" class="social-button">
+                    <span>📺</span>
+                    <span>YouTube</span>
+                </a>
+            </div>
+
+            <div class="form-group" style="max-width: 500px; margin: 3rem auto 0;">
+                <label for="newsletter">Subscribe to Our Newsletter</label>
+                <div style="display: flex; gap: 1rem;">
+                    <input type="email" id="newsletter" placeholder="your@email.com" style="flex: 1;">
+                    <button class="contact-button" style="width: auto; margin: 0; padding: 1rem 2rem;" onclick="subscribeNewsletter()">Subscribe</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="donation-section">
+            <h2>Support Our Mission</h2>
+            <p>The Unified Path is sustained by the generosity of our community. Your donation helps us keep all resources free and accessible to seekers everywhere.</p>
+            <p>We believe spiritual wisdom should never be limited by financial means. Every contribution, no matter the size, helps us continue this sacred work.</p>
+
+            <div class="donation-options">
+                <div class="donation-amount" onclick="selectAmount(this, 10)">$10</div>
+                <div class="donation-amount" onclick="selectAmount(this, 25)">$25</div>
+                <div class="donation-amount" onclick="selectAmount(this, 50)">$50</div>
+                <div class="donation-amount" onclick="selectAmount(this, 100)">$100</div>
+                <div class="donation-amount" onclick="selectAmount(this, 'custom')">Custom</div>
+            </div>
+
+            <button class="submit-button" onclick="processDonation()">Make a Donation 🙏</button>
+
+            <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 2rem;">
+                The Unified Path is a registered non-profit organization. Donations may be tax-deductible.
+            </p>
+        </div>
+
+        <div class="info-box" style="margin-top: 3rem; text-align: center;">
+            <p style="font-size: 1.2rem; margin: 0;">
+                <strong>Office Hours:</strong> Monday - Friday, 9:00 AM - 5:00 PM EST<br>
+                <strong>Phone:</strong> +1 (555) UNIFIED<br>
+                <strong>Email:</strong> hello@theunifiedpath.org
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        function scrollToForm() {
+            document.getElementById('contactForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function bookGuidance() {
+            alert('Spiritual Guidance Booking\n\nYou will be redirected to our booking calendar where you can:\n\n• Choose from available spiritual guides\n• Select a convenient time\n• Book a 30 or 60-minute session\n\nFirst session is always free!');
+        }
+
+        function contactPartnership() {
+            alert('Partnership Opportunities\n\nThank you for your interest in partnering with The Unified Path!\n\nWe collaborate with:\n• Teachers and spiritual guides\n• Retreat centers\n• Content creators\n• Community organizations\n\nPlease use the contact form below and select "Partnership Inquiry" to get started.');
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            console.log('Form submitted:', { name, email, subject, message });
+
+            alert(`Thank you, ${name}! 🙏\n\nYour message has been received. We'll respond to ${email} within 24-48 hours.\n\nMay peace be with you on your journey.`);
+
+            event.target.reset();
+        }
+
+        function subscribeNewsletter() {
+            const email = document.getElementById('newsletter').value;
+            if (email) {
+                alert(`Welcome to our community! 🌟\n\n${email} has been subscribed to our newsletter.\n\nYou'll receive weekly inspiration, event updates, and spiritual wisdom.`);
+                document.getElementById('newsletter').value = '';
+            } else {
+                alert('Please enter your email address.');
+            }
+        }
+
+        let selectedDonationAmount = null;
+
+        function selectAmount(element, amount) {
+            document.querySelectorAll('.donation-amount').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedDonationAmount = amount;
+        }
+
+        function processDonation() {
+            if (!selectedDonationAmount) {
+                alert('Please select a donation amount first.');
+                return;
+            }
+
+            if (selectedDonationAmount === 'custom') {
+                const customAmount = prompt('Enter your custom donation amount (numbers only):');
+                if (customAmount && !isNaN(customAmount)) {
+                    selectedDonationAmount = parseFloat(customAmount);
+                } else {
+                    return;
+                }
+            }
+
+            alert(`Thank you for your generosity! 🙏\n\nYou've chosen to donate $${selectedDonationAmount}.\n\nYou would now be redirected to our secure payment processor.\n\nYour contribution helps keep spiritual wisdom accessible to all.`);
+        }
+    </script>
+</body>
+</html>

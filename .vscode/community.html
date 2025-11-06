@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - The Unified Path</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #0a0e27, #1a1a3e, #2d1b4e);
+            color: #f0e6d2;
+            min-height: 100vh;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #ffd700, #87ceeb, #4caf50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #f0e6d2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: transparent;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Top navigation shared across pages */
+        .top-nav {
+            position: fixed;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.4);
+            padding: 0.4rem 0.6rem;
+            border-radius: 999px;
+            z-index: 9999;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .top-nav a {
+            color: #f0e6d2;
+            text-decoration: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            background: transparent;
+            transition: background 0.2s ease, transform 0.15s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .top-nav a:hover {
+            background: linear-gradient(135deg, #667eea33, #764ba233);
+            transform: translateY(-2px);
+        }
+
+        .discussion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .discussion-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .discussion-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(10px);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .discussion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .discussion-title {
+            font-size: 1.5rem;
+            color: #87ceeb;
+            margin-bottom: 0.5rem;
+        }
+
+        .discussion-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        .discussion-preview {
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .topic-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(135, 206, 235, 0.2);
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+
+        .new-post-btn {
+            position: fixed;
+            bottom: 3rem;
+            right: 3rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .new-post-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .story-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .story-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .story-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .author-info h4 {
+            color: #87ceeb;
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .story-content {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .story-reactions {
+            display: flex;
+            gap: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .reaction-btn {
+            background: none;
+            border: none;
+            color: #f0e6d2;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .reaction-btn:hover {
+            transform: scale(1.1);
+            color: #ffd700;
+        }
+
+        .events-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .event-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: scale(1.02);
+            border-color: rgba(255, 215, 0, 0.6);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .event-date {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .event-title {
+            font-size: 1.6rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .event-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .rsvp-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .rsvp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.6);
+        }
+
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .group-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .group-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(135, 206, 235, 0.3);
+        }
+
+        .group-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .group-name {
+            font-size: 1.5rem;
+            color: #87ceeb;
+            margin-bottom: 0.5rem;
+        }
+
+        .group-members {
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        .join-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(135, 206, 235, 0.3);
+            border: 2px solid #87ceeb;
+            border-radius: 50px;
+            color: #f0e6d2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .join-btn:hover {
+            background: rgba(135, 206, 235, 0.5);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .story-grid, .events-list, .groups-grid {
+                grid-template-columns: 1fr;
+            }
+            .new-post-btn {
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <nav class="top-nav" aria-label="Main navigation">
+        <a href="../file.html">Home</a>
+        <a href="../beggine.html">Begin</a>
+        <a href="../daily.html">Daily</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+        <a href="library.html">Library</a>
+        <a href="oracle.html">Oracle</a>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Sacred Community</h1>
+            <p style="font-size: 1.2rem; opacity: 0.8;">Walk together on the path of awakening</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('discussions')">💬 Discussions</button>
+            <button class="tab-btn" onclick="switchTab('stories')">✨ Stories</button>
+            <button class="tab-btn" onclick="switchTab('events')">📅 Events</button>
+            <button class="tab-btn" onclick="switchTab('groups')">👥 Groups</button>
+        </div>
+
+        <!-- Discussions Tab -->
+        <div class="tab-content active" id="discussions">
+            <div class="discussion-list">
+                <div class="discussion-card" onclick="openDiscussion(1)">
+                    <div class="discussion-header">
+                        <div>
+                            <h3 class="discussion-title">How do you practice mindfulness in daily life?</h3>
+                            <div class="discussion-meta">
+                                <span>👤 Sarah M.</span>
+                                <span>💬 24 replies</span>
+                                <span>🕐 2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="discussion-preview">I've been trying to be more present throughout my day, but my mind keeps wandering. What practices have helped you stay grounded?</p>
+                    <div style="margin-top: 1rem;">
+                        <span class="topic-tag">Mindfulness</span>
+                        <span class="topic-tag">Daily Practice</span>
+                    </div>
+                </div>
+
+                <div class="discussion-card" onclick="openDiscussion(2)">
+                    <div class="discussion-header">
+                        <div>
+                            <h3 class="discussion-title">Understanding the concept of surrender</h3>
+                            <div class="discussion-meta">
+                                <span>👤 Michael Chen</span>
+                                <span>💬 18 replies</span>
+                                <span>🕐 5 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="discussion-preview">How do we balance taking action in life while also surrendering to divine will? This paradox has been on my mind lately...</p>
+                    <div style="margin-top: 1rem;">
+                        <span class="topic-tag">Philosophy</span>
+                        <span class="topic-tag">Surrender</span>
+                    </div>
+                </div>
+
+                <div class="discussion-card" onclick="openDiscussion(3)">
+                    <div class="discussion-header">
+                        <div>
+                            <h3 class="discussion-title">Sacred texts that changed your life</h3>
+                            <div class="discussion-meta">
+                                <span>👤 Amara K.</span>
+                                <span>💬 42 replies</span>
+                                <span>🕐 1 day ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="discussion-preview">What books or teachings have profoundly shifted your perspective? I'd love to hear recommendations from all traditions...</p>
+                    <div style="margin-top: 1rem;">
+                        <span class="topic-tag">Sacred Texts</span>
+                        <span class="topic-tag">Recommendations</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stories Tab -->
+        <div class="tab-content" id="stories">
+            <div class="story-grid">
+                <div class="story-card">
+                    <div class="story-author">
+                        <div class="avatar">🌟</div>
+                        <div class="author-info">
+                            <h4>Elena Rodriguez</h4>
+                            <p>3 days ago</p>
+                        </div>
+                    </div>
+                    <div class="story-content">
+                        <p>After years of searching, I finally understood that the peace I was seeking wasn't somewhere out there—it was within me all along. My breakthrough came during a simple morning meditation. No grand vision, just a deep knowing that I am already whole.</p>
+                    </div>
+                    <div class="story-reactions">
+                        <button class="reaction-btn">🙏 42</button>
+                        <button class="reaction-btn">❤️ 38</button>
+                        <button class="reaction-btn">💬 12</button>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-author">
+                        <div class="avatar">✨</div>
+                        <div class="author-info">
+                            <h4>James Cooper</h4>
+                            <p>1 week ago</p>
+                        </div>
+                    </div>
+                    <div class="story-content">
+                        <p>Losing my job felt like the end of the world. But through prayer and community support, I discovered it was actually a doorway to my true calling. Now I teach meditation to at-risk youth. Sometimes our greatest challenges are divine redirections.</p>
+                    </div>
+                    <div class="story-reactions">
+                        <button class="reaction-btn">🙏 56</button>
+                        <button class="reaction-btn">❤️ 64</button>
+                        <button class="reaction-btn">💬 23</button>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-author">
+                        <div class="avatar">🌙</div>
+                        <div class="author-info">
+                            <h4>Priya Sharma</h4>
+                            <p>2 weeks ago</p>
+                        </div>
+                    </div>
+                    <div class="story-content">
+                        <p>My grandmother's passing taught me that death is not an ending but a transformation. As I sat with her in her final moments, I felt an overwhelming presence of peace and light. She showed me that love truly is eternal.</p>
+                    </div>
+                    <div class="story-reactions">
+                        <button class="reaction-btn">🙏 89</button>
+                        <button class="reaction-btn">❤️ 102</button>
+                        <button class="reaction-btn">💬 31</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Tab -->
+        <div class="tab-content" id="events">
+            <div class="events-list">
+                <div class="event-card">
+                    <div class="event-date">📅 Saturday, Nov 15 • 7:00 PM</div>
+                    <h3 class="event-title">Full Moon Meditation Circle</h3>
+                    <div class="event-details">
+                        <div class="event-detail">📍 Online via Zoom</div>
+                        <div class="event-detail">⏱️ 90 minutes</div>
+                        <div class="event-detail">👥 58 attending</div>
+                    </div>
+                    <p style="margin: 1rem 0; line-height: 1.6;">Join us for a powerful group meditation under the full moon. We'll set intentions, practice breathwork, and connect with the lunar energy.</p>
+                    <button class="rsvp-btn">RSVP for Event</button>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-date">📅 Sunday, Nov 16 • 10:00 AM</div>
+                    <h3 class="event-title">Sacred Text Study: The Tao Te Ching</h3>
+                    <div class="event-details">
+                        <div class="event-detail">📍 Community Center, 123 Peace St</div>
+                        <div class="event-detail">⏱️ 2 hours</div>
+                        <div class="event-detail">👥 23 attending</div>
+                    </div>
+                    <p style="margin: 1rem 0; line-height: 1.6;">Deep dive into Lao Tzu's timeless wisdom. Bring your questions, insights, and an open heart.</p>
+                    <button class="rsvp-btn">RSVP for Event</button>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-date">📅 Wednesday, Nov 19 • 6:30 PM</div>
+                    <h3 class="event-title">Interfaith Dialogue: Unity in Diversity</h3>
+                    <div class="event-details">
+                        <div class="event-detail">📍 Online via Zoom</div>
+                        <div class="event-detail">⏱️ 2 hours</div>
+                        <div class="event-detail">👥 92 attending</div>
+                    </div>
+                    <p style="margin: 1rem 0; line-height: 1.6;">Representatives from various spiritual traditions share their paths. Discover the common threads that unite all seekers.</p>
+                    <button class="rsvp-btn">RSVP for Event</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Groups Tab -->
+        <div class="tab-content" id="groups">
+            <div class="groups-grid">
+                <div class="group-card">
+                    <div class="group-icon">🧘‍♀️</div>
+                    <h3 class="group-name">Daily Meditators</h3>
+                    <p class="group-members">324 members</p>
+                    <p style="opacity: 0.8; margin-bottom: 1.5rem;">For those committed to daily practice. Share experiences, techniques, and support each other's journey.</p>
+                    <button class="join-btn">Join Group</button>
+                </div>
+
+                <div class="group-card">
+                    <div class="group-icon">📖</div>
+                    <h3 class="group-name">Sacred Texts Circle</h3>
+                    <p class="group-members">198 members</p>
+                    <p style="opacity: 0.8; margin-bottom: 1.5rem;">Weekly discussions of wisdom from all traditions. Currently reading the Upanishads.</p>
+                    <button class="join-btn">Join Group</button>
+                </div>
+
+                <div class="group-card">
+                    <div class="group-icon">🌿</div>
+                    <h3 class="group-name">Mindful Living</h3>
+                    <p class="group-members">456 members</p>
+                    <p style="opacity: 0.8; margin-bottom: 1.5rem;">Practical tips for bringing spirituality into everyday life. From mindful eating to conscious parenting.</p>
+                    <button class="join-btn">Join Group</button>
+                </div>
+
+                <div class="group-card">
+                    <div class="group-icon">🎨</div>
+                    <h3 class="group-name">Creative Mystics</h3>
+                    <p class="group-members">167 members</p>
+                    <p style="opacity: 0.8; margin-bottom: 1.5rem;">Express your spiritual journey through art, poetry, music, and creative writing.</p>
+                    <button class="join-btn">Join Group</button>
+                </div>
+
+                <div class="group-card">
+                    <div class="group-icon">🤝</div>
+                    <h3 class="group-name">Service & Action</h3>
+                    <p class="group-members">289 members</p>
+                    <p style="opacity: 0.8; margin-bottom: 1.5rem;">Put love into action. Organize community service, support causes, and make a difference.</p>
+                    <button class="join-btn">Join Group</button>
+                </div>
+
+                <div class="group-card">
+                    <div class="group-icon">🌟</div>
+                    <h3 class="group-name">Spiritual Seekers</h3>
+                    <p class="group-members">512 members</p>
+                    <p style="opacity: 0.8; margin-bottom: 1.5rem;">New to the path? Ask questions, find guidance, and connect with mentors.</p>
+                    <button class="join-btn">Join Group</button>
+                </div>
+            </div>
+        </div>
+
+        <button class="new-post-btn" onclick="createPost()">+</button>
+    </div>
+
+    <script>
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function openDiscussion(id) {
+            alert(`Opening discussion ${id}...\n\nIn a full version, this would open a detailed view with all comments and allow you to participate in the conversation.`);
+        }
+
+        function createPost() {
+            alert('Create New Post\n\nIn a full version, this would open a form to:\n• Start a new discussion\n• Share your story\n• Create an event\n\nWhat would you like to share with the community?');
+        }
+    </script>
+</body>
+</html>

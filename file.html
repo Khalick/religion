@@ -360,10 +360,50 @@
             .tagline { font-size: 1.2rem; }
             .section-title { font-size: 2rem; }
         }
+            /* Top navigation shared across pages */
+            .top-nav {
+                position: fixed;
+                top: 12px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.4);
+                padding: 0.4rem 0.6rem;
+                border-radius: 999px;
+                z-index: 9999;
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+                backdrop-filter: blur(6px);
+            }
+
+            .top-nav a {
+                color: #f0e6d2;
+                text-decoration: none;
+                padding: 0.5rem 0.9rem;
+                border-radius: 999px;
+                background: transparent;
+                transition: background 0.2s ease, transform 0.15s ease;
+                font-family: 'Georgia', serif;
+            }
+
+            .top-nav a:hover {
+                background: linear-gradient(135deg, #667eea33, #764ba233);
+                transform: translateY(-2px);
+            }
     </style>
 </head>
 <body>
     <div class="stars" id="stars"></div>
+        <nav class="top-nav" aria-label="Main navigation">
+            <a href="file.html">Home</a>
+            <a href="beggine.html">Begin</a>
+            <a href="daily.html">Daily</a>
+            <a href=".vscode/about.html">About</a>
+            <a href=".vscode/community.html">Community</a>
+            <a href=".vscode/contact.html">Contact</a>
+            <a href=".vscode/library.html">Library</a>
+            <a href=".vscode/oracle.html">Oracle</a>
+        </nav>
 
     <section class="hero">
         <div class="heaven-realm"></div>
